@@ -4,37 +4,60 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-  <!--<![endif]-->
-  <head>
+<!--<![endif]-->
+
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="./assets/css/styles.css" />
-  </head>
-  <body>
+</head>
 
-    <h1>Hello world!</h1>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
+        <span class="navbar-text" id="nav-text"> Weather Dashboard </span>
+    </nav>
 
-    
+    <div class="container-fluid">
+        <!-- main row -->
+        <div class="row">
+            <!-- Search column start-->
+            <div class="col-sm-4" id="search-city-div">
+                <form>
+                    <div class="form-group">
+                        <label for="cityName" id="city-search-label">Search for a city:</label>
+                        <div class="form-inline">
+                            <input type="text" class="form-control" id="city-name" />
+                            <button type="submit" class="btn btn-primary btn-lg fa fa-search" aria-hidden="true"
+                                id="city-search-button"></button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <tbody id="city-history-table"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Search column end-->
+
+            <!-- Display column -->
+            <div class="col-sm-8"></div>
+        </div>
+        <!-- main row -->
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./script.js"></script>
-  </body>
+</body>
+
 </html>

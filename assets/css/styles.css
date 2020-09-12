@@ -1,3 +1,18 @@
-h1{
-    color:green;
+#nav-text{
+    font-size: 2rem;
+    color:white;
+    
+}
+
+#city-search-label{
+    font-size:1.2rem;
+}
+
+#search-city-div{
+
+    background-color: #f8f9fa;
+}
+
+table{
+    background-color:white;
 }
