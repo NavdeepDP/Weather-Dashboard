@@ -16,3 +16,11 @@
 table{
     background-color:white;
 }
+
+#weather-display-main-col{
+    margin-top:15px
+}
+
+#current-weather-row{
+    margin-bottom:15px;
+}

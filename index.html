@@ -51,12 +51,55 @@
             <!-- Search column end-->
 
             <!-- Display column -->
-            <div class="col-sm-8"></div>
+            <div class="col-sm-8" id="weather-display-main-col">
+                <!-- Current weather display row -->
+                <div class="row" id="current-weather-row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 id="current-city-name">
+                                    <span id="current-city"></span> <span id="current-date"></span> <span id="current-image"></span>
+                                        
+                                </h1>
+
+                                <p class="card-text">
+                                    Temperature: <span id="current-temperature"></span>
+                                    <span>&#176;</span>F
+                                </p>
+                                <p class="card-text">
+                                    Humidity: <span id="current-humidity"></span>%
+                                </p>
+                                <p class="card-text">
+                                    Wind Speed: <span id="current-speed"></span> MPH
+                                </p>
+                                <p class="card-text">
+                                    UV Index: <span id="current-uvindex"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Current weather display row -->
+
+                <!-- 5-day Forecast row -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>5-Day Forecast:</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-group" id="weather-forecast-card-group"></div>
+                    </div>
+                </div>
+                <!-- 5-day Forecast row -->
+            </div>
         </div>
         <!-- main row -->
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./script.js"></script>
 </body>
 
