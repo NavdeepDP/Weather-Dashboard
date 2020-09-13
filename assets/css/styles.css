@@ -18,7 +18,8 @@ table{
 }
 
 #weather-display-main-col{
-    margin-top:15px
+    margin-top:15px;
+    display: none;
 }
 
 #current-weather-row{

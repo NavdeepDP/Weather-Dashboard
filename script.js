@@ -33,6 +33,7 @@ $(document).ready(function () {
 
     // weather forecast group
     var cardGroupDiv = $("#weather-forecast-card-group");
+    var weatherDisplayDiv = $("#weather-display-main-col");
 
 
     /**
@@ -51,9 +52,13 @@ $(document).ready(function () {
             var cityRow = $("<tr>");
             var cityCol = $("<td>");
             cityCol.text(citySearchedArray[i]);
+            cityRow.attr("data-value", citySearchedArray[i]);
+            cityRow.addClass("citySearchHistoryRecord");
             cityRow.append(cityCol);
             cityHistoryTableBody.append(cityRow);
         }
+
+        localStorage.setItem("citySearchHistory", JSON.stringify(citySearchedArray));
     }
 
 
@@ -66,8 +71,8 @@ $(document).ready(function () {
         }).then(function (fiveDayForecast) {
             console.log(fiveDayForecast);
 
-            
-            var lastForecastDate =""
+
+            var lastForecastDate = ""
             cardGroupDiv.empty();
 
             for (var i = 0; i < fiveDayForecast.list.length; i++) {
@@ -75,12 +80,11 @@ $(document).ready(function () {
                 var forecastDateString = fiveDayForecast.list[i].dt_txt;
                 var forecastDate = moment(forecastDateString).format("DD-MM-YYYY");
                 var todayDate = moment().format("DD-MM-YYYY");
-                
-                
 
-                if ((todayDate !== forecastDate) && (lastForecastDate !== forecastDate))
-                {
-                    console.log("Forecast Data");
+
+
+                if ((todayDate !== forecastDate) && (lastForecastDate !== forecastDate)) {
+                    // console.log("Forecast Data");
                     var imageSrc = "http://openweathermap.org/img/wn/" + fiveDayForecast.list[i].weather[0].icon + ".png";
                     lastForecastDate = forecastDate;
 
@@ -90,10 +94,10 @@ $(document).ready(function () {
                     var cardOutlineDiv = $("<div>");
                     cardOutlineDiv.addClass("card text-white bg-primary mb-3 mr-2");
                     cardOutlineDiv.attr("style", "width: 9rem;")
-                    
+
                     var cardHeaderDiv = $("<div>");
                     cardHeaderDiv.addClass("card-header");
-                    cardHeaderDiv.attr("style","padding-left:5px");                    
+                    cardHeaderDiv.attr("style", "padding-left:5px");
                     var date = $("<span>");
                     dateFormatted = moment(fiveDayForecast.list[i].dt_txt).format("MM/DD/YYYY");
                     date.text(dateFormatted);
@@ -102,15 +106,15 @@ $(document).ready(function () {
 
                     var cardBodyDiv = $("<div>");
                     cardBodyDiv.addClass("card-body");
-                    cardBodyDiv.attr("style","padding-left:5px; padding-bottom:5px; padding-top:5px");
-                    
+                    cardBodyDiv.attr("style", "padding-left:5px; padding-bottom:5px; padding-top:5px");
+
                     var image = $("<img>");
                     image.attr("src", imageSrc);
                     var temp = $("<p>");
-                    temp.text("Temp: " + fiveDayForecast.list[i].main.temp +  "°F");
-                    var humidity =$("<p>");
+                    temp.text("Temp: " + fiveDayForecast.list[i].main.temp + "°F");
+                    var humidity = $("<p>");
                     humidity.text("Humidity: " + fiveDayForecast.list[i].main.humidity + "%");
-                    cardBodyDiv.append(image,temp, humidity);
+                    cardBodyDiv.append(image, temp, humidity);
 
 
                     cardOutlineDiv.append(cardHeaderDiv, cardBodyDiv);
@@ -118,17 +122,7 @@ $(document).ready(function () {
                     cardGroupDiv.append(cardDiv);
 
 
-                }     
-                else if (lastForecastDate === forecastDate)
-                {
-                    console.log("same date Data");
-                }               
-                else
-                {
-                    console.log("current Data");
                 }
-
-
 
             }
 
@@ -153,20 +147,15 @@ $(document).ready(function () {
             currWindSpeedEl.text(cityWeather.wind.speed);
             currHumidityEl.text(cityWeather.main.humidity);
 
-
             var image = $("<img>");
             var imageSrc = "http://openweathermap.org/img/wn/" + cityWeather.weather[0].icon + "@2x.png";
             image.attr("src", imageSrc);
             currWeatherImageEl.empty();
             currWeatherImageEl.append(image);
 
-            // currWeatherImageEl.attr("src", imageSrc);
-
-
             // UV Index 
             var lat = cityWeather.coord.lat;
             var lon = cityWeather.coord.lon;
-
 
             var uvIndexQuery = "http://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
             $.ajax({
@@ -184,9 +173,33 @@ $(document).ready(function () {
             var currentDayString = currentDayVar.format("MM/DD/YYYY");
             currDateEl.text("(" + currentDayString + ")");
 
+            // add the city to the array
+            if (citySearchedArray.indexOf(cityWeather.name) === -1)
+                citySearchedArray.push(cityWeather.name);
+            // render city names
+            renderCityNames();
+
             getAndDisplayFiveDayForecast(cityWeather.name);
 
+            // display the weather display div
+            weatherDisplayDiv.show();
+
         });
+
+    }
+
+    // Function to get city search history from local storage
+    function onDocumentLoad() {
+
+        var searchHistory = JSON.parse(localStorage.getItem("citySearchHistory"));
+        if(searchHistory !== null)
+        {
+            citySearchedArray = searchHistory;
+        }
+        if(citySearchedArray.length > 0 )
+        {
+            renderCityNames();
+        }        
 
     }
 
@@ -194,7 +207,8 @@ $(document).ready(function () {
      * FUNCTION CALLS
      */
 
-
+    // Get the city search history
+    onDocumentLoad();
 
     /**
      * EVENT HANDLERS
@@ -216,14 +230,19 @@ $(document).ready(function () {
         // display current weather conditions for  the city
         displayCurrentWeather(cityName);
 
-        // add the city to the array
-        if (citySearchedArray.indexOf(cityName) === -1)
-            citySearchedArray.push(cityName);
-        // render city names
-        renderCityNames();
-
     });
 
+    // Event handler for city search history
 
+    $(document).on("click", ".citySearchHistoryRecord", function (event) {
+        event.preventDefault();
+        console.log("History Row clicked");
+
+        var cityName = $(this).attr("data-value");
+        console.log("History Row clicked: " + cityName);
+
+        displayCurrentWeather(cityName);
+
+    });
 
 });
