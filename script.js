@@ -85,7 +85,12 @@ $(document).ready(function () {
 
                 if ((todayDate !== forecastDate) && (lastForecastDate !== forecastDate)) {
                     // console.log("Forecast Data");
-                    var imageSrc = "http://openweathermap.org/img/wn/" + fiveDayForecast.list[i].weather[0].icon + ".png";
+                    var icon =  fiveDayForecast.list[i].weather[0].icon ;
+                    if(icon.includes('n'))
+                    {
+                        icon = icon.replace('n', 'd');
+                    }
+                    var imageSrc = "http://openweathermap.org/img/wn/" + icon + ".png";
                     lastForecastDate = forecastDate;
 
                     var cardDiv = $("<div>");
@@ -165,6 +170,18 @@ $(document).ready(function () {
             }).then(function (uvIndexResponse) {
                 console.log(uvIndexResponse);
                 currUvIndexEl.text(uvIndexResponse.value);
+                var uvIndexValue = uvIndexResponse.value;
+                currUvIndexEl.css("background-color", "");
+                if((uvIndexValue >= 0) && (uvIndexValue < 3))
+                   currUvIndexEl.css("background-color", "green");
+                else if((uvIndexValue >= 3) && (uvIndexValue < 6))
+                   currUvIndexEl.css("background-color", "yellow");
+                else if((uvIndexValue >= 6) && (uvIndexValue < 8))
+                   currUvIndexEl.css("background-color", "orange");
+                else if((uvIndexValue >= 8) && (uvIndexValue < 11))
+                   currUvIndexEl.css("background-color", "red");
+                else if(uvIndexValue >= 11) 
+                   currUvIndexEl.css("background-color", "violet");
             });
 
             //set the current date
