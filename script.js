@@ -90,7 +90,7 @@ $(document).ready(function () {
                     {
                         icon = icon.replace('n', 'd');
                     }
-                    var imageSrc = "http://openweathermap.org/img/wn/" + icon + ".png";
+                    var imageSrc = "https://openweathermap.org/img/wn/" + icon + ".png";
                     lastForecastDate = forecastDate;
 
                     var cardDiv = $("<div>");
