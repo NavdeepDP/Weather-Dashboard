@@ -153,7 +153,7 @@ $(document).ready(function () {
             currHumidityEl.text(cityWeather.main.humidity);
 
             var image = $("<img>");
-            var imageSrc = "http://openweathermap.org/img/wn/" + cityWeather.weather[0].icon + "@2x.png";
+            var imageSrc = "https://openweathermap.org/img/wn/" + cityWeather.weather[0].icon + "@2x.png";
             image.attr("src", imageSrc);
             currWeatherImageEl.empty();
             currWeatherImageEl.append(image);
