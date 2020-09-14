@@ -76,7 +76,7 @@ $(document).ready(function () {
             cardGroupDiv.empty();
 
             for (var i = 0; i < fiveDayForecast.list.length; i++) {
-                console.log("dt_txt: " + fiveDayForecast.list[i].dt_txt);
+                //console.log("dt_txt: " + fiveDayForecast.list[i].dt_txt);
                 var forecastDateString = fiveDayForecast.list[i].dt_txt;
                 var forecastDate = moment(forecastDateString).format("DD-MM-YYYY");
                 var todayDate = moment().format("DD-MM-YYYY");
@@ -162,7 +162,7 @@ $(document).ready(function () {
             var lat = cityWeather.coord.lat;
             var lon = cityWeather.coord.lon;
 
-            var uvIndexQuery = "http://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
+            var uvIndexQuery = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon;
             $.ajax({
                 url: uvIndexQuery,
                 method: "GET"
@@ -186,7 +186,7 @@ $(document).ready(function () {
 
             //set the current date
             var currentDayVar = moment();
-            console.log(currentDayVar.format("MM/DD/YYYY"));
+            //console.log(currentDayVar.format("MM/DD/YYYY"));
             var currentDayString = currentDayVar.format("MM/DD/YYYY");
             currDateEl.text("(" + currentDayString + ")");
 
