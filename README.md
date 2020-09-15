@@ -7,7 +7,9 @@ The link to the website repository: [Website Repo link](https://github.com/Navde
 The site is published at [Published Website link](https://navdeepdp.github.io/Weather-Dashboard/)
 
 ## Development Environment
-Code is developed in VS code Studio
+- Code is developed in VS code Studio
+
+- Website functionality is using the data returned using OpenWeatherMap API services.
 
 ## Website Functionality
 
@@ -15,8 +17,11 @@ Code is developed in VS code Studio
 
  ![Demo](./assets/images/Weather-Dashboard.gif)
 
+ - User can enter the city and click search button to get the current weather forecast and the forecast for next five days.
 
+ - All the searched cities will be saved in the search history for future reference. Search history will be available after page reload also.
 
+ 
 ## Installation
 
 - Code is developed using VS Code studio.
