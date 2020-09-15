@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    console.log("Document ready");
+    //console.log("Document ready");
 
 
     /**
@@ -74,7 +74,7 @@ $(document).ready(function () {
             var lastForecastDate = ""
             // Current date
             var todayDate = moment().format("MM/DD/YYYY");
-            console.log("Date Today " + todayDate);
+            //console.log("Date Today " + todayDate);
             // Clear the previous forecast data in the card group
             cardGroupDiv.empty();
             // Counter to display only five days forecast
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 var forecastDateString = fiveDayForecast.daily[i].dt;
                 const timestamp = forecastDateString * 1000;
                 const forecastDate = moment(timestamp).format('L');
-                console.log("formatted date: "  + forecastDate); // "02/24/2018"                
+                //console.log("formatted date: "  + forecastDate); // "02/24/2018"                
                           
                 if ((todayDate !== forecastDate) && (lastForecastDate !== forecastDate) && (dayCount < 5)) {
 
@@ -156,7 +156,7 @@ $(document).ready(function () {
             url: queryUrl,
             method: "GET"
         }).then(function (fiveDayForecast) {
-            console.log(fiveDayForecast);
+            //console.log(fiveDayForecast);
 
 
             var lastForecastDate = ""
@@ -231,7 +231,7 @@ $(document).ready(function () {
             url: queryUrl,
             method: "GET"
         }).then(function (cityWeather) {
-            console.log(cityWeather);
+            //console.log(cityWeather);
 
             currCityNameEl.text(cityWeather.name);
             currTempEl.text(cityWeather.main.temp);
@@ -254,7 +254,7 @@ $(document).ready(function () {
                 method: "GET"
 
             }).then(function (uvIndexResponse) {
-                console.log(uvIndexResponse);
+                //console.log(uvIndexResponse);
                 currUvIndexEl.text(uvIndexResponse.value);
                 var uvIndexValue = uvIndexResponse.value;
                 currUvIndexEl.css("background-color", "");
@@ -323,11 +323,11 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        console.log("City search button clicked");
+        //console.log("City search button clicked");
 
         // get the city name from input text box
         var cityName = cityNameInput.val();
-        console.log(cityName);
+        //console.log(cityName);
 
         // display current weather conditions for  the city
         displayCurrentWeather(cityName);
@@ -338,10 +338,10 @@ $(document).ready(function () {
 
     $(document).on("click", ".citySearchHistoryRecord", function (event) {
         event.preventDefault();
-        console.log("History Row clicked");
+        //console.log("History Row clicked");
 
         var cityName = $(this).attr("data-value");
-        console.log("History Row clicked: " + cityName);
+        //console.log("History Row clicked: " + cityName);
 
         displayCurrentWeather(cityName);
 
