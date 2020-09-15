@@ -61,6 +61,93 @@ $(document).ready(function () {
         localStorage.setItem("citySearchHistory", JSON.stringify(citySearchedArray));
     }
 
+    // Function to display five day forecast  with one call api
+    function getAndDisplayFiveDayForecastOneCallApi(lat, lon) {
+        var queryUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly&units=imperial&appid=" + apiKey;
+        $.ajax({
+            url: queryUrl,
+            method: "GET"
+        }).then(function (fiveDayForecast) {
+
+            //console.log(fiveDayForecast);
+                       
+            var lastForecastDate = ""
+            // Current date
+            var todayDate = moment().format("MM/DD/YYYY");
+            console.log("Date Today " + todayDate);
+            // Clear the previous forecast data in the card group
+            cardGroupDiv.empty();
+            // Counter to display only five days forecast
+            var dayCount = 0;
+
+            for (var i = 0; i < fiveDayForecast.daily.length; i++) {
+
+                // get the date from Time of the forecasted data, Unix, UTC
+
+                //console.log("dt_txt: " + fiveDayForecast.list[i].dt_txt);
+                var forecastDateString = fiveDayForecast.daily[i].dt;
+                const timestamp = forecastDateString * 1000;
+                const forecastDate = moment(timestamp).format('L');
+                console.log("formatted date: "  + forecastDate); // "02/24/2018"                
+                          
+                if ((todayDate !== forecastDate) && (lastForecastDate !== forecastDate) && (dayCount < 5)) {
+
+                    dayCount++;
+                    lastForecastDate = forecastDate;
+
+                    // Weather icon
+                    var icon = fiveDayForecast.daily[i].weather[0].icon;
+                    var imageSrc = "https://openweathermap.org/img/wn/" + icon + ".png";
+                    
+                    var cardDiv = $("<div>");
+                    // cardDiv.addClass("col-sm-2");
+
+                    var cardOutlineDiv = $("<div>");
+                    cardOutlineDiv.addClass("card text-white bg-primary mb-3 mr-2");
+                    cardOutlineDiv.attr("style", "width: 9rem;")
+
+                    // Display forecast date
+                    var cardHeaderDiv = $("<div>");
+                    cardHeaderDiv.addClass("card-header");
+                    cardHeaderDiv.attr("style", "padding-left:5px");
+                    var date = $("<span>");                    
+                    date.text(forecastDate);
+                    cardHeaderDiv.append(date);
+
+                   // card body
+                    var cardBodyDiv = $("<div>");
+                    cardBodyDiv.addClass("card-body");
+                    cardBodyDiv.attr("style", "padding-left:5px; padding-bottom:5px; padding-top:5px");
+                   
+                    // Temperature and humidity
+                    var image = $("<img>");
+                    image.attr("src", imageSrc);
+                    var temp = $("<p>");
+                    temp.text("Temp: " + fiveDayForecast.daily[i].temp.day + "°F");
+                    var humidity = $("<p>");
+                    humidity.text("Humidity: " + fiveDayForecast.daily[i].humidity + "%");
+                    cardBodyDiv.append(image, temp, humidity);
+
+
+                    cardOutlineDiv.append(cardHeaderDiv, cardBodyDiv);
+                    cardDiv.append(cardOutlineDiv);
+                    cardGroupDiv.append(cardDiv);
+
+
+                }
+
+            }
+
+
+
+
+
+        });
+
+    }
+
+
+
 
     // Function to  get display five day forecast
     function getAndDisplayFiveDayForecast(cityName) {
@@ -85,9 +172,8 @@ $(document).ready(function () {
 
                 if ((todayDate !== forecastDate) && (lastForecastDate !== forecastDate)) {
                     // console.log("Forecast Data");
-                    var icon =  fiveDayForecast.list[i].weather[0].icon ;
-                    if(icon.includes('n'))
-                    {
+                    var icon = fiveDayForecast.list[i].weather[0].icon;
+                    if (icon.includes('n')) {
                         icon = icon.replace('n', 'd');
                     }
                     var imageSrc = "https://openweathermap.org/img/wn/" + icon + ".png";
@@ -172,16 +258,16 @@ $(document).ready(function () {
                 currUvIndexEl.text(uvIndexResponse.value);
                 var uvIndexValue = uvIndexResponse.value;
                 currUvIndexEl.css("background-color", "");
-                if((uvIndexValue >= 0) && (uvIndexValue < 3))
-                   currUvIndexEl.css("background-color", "green");
-                else if((uvIndexValue >= 3) && (uvIndexValue < 6))
-                   currUvIndexEl.css("background-color", "yellow");
-                else if((uvIndexValue >= 6) && (uvIndexValue < 8))
-                   currUvIndexEl.css("background-color", "orange");
-                else if((uvIndexValue >= 8) && (uvIndexValue < 11))
-                   currUvIndexEl.css("background-color", "red");
-                else if(uvIndexValue >= 11) 
-                   currUvIndexEl.css("background-color", "violet");
+                if ((uvIndexValue >= 0) && (uvIndexValue < 3))
+                    currUvIndexEl.css("background-color", "green");
+                else if ((uvIndexValue >= 3) && (uvIndexValue < 6))
+                    currUvIndexEl.css("background-color", "yellow");
+                else if ((uvIndexValue >= 6) && (uvIndexValue < 8))
+                    currUvIndexEl.css("background-color", "orange");
+                else if ((uvIndexValue >= 8) && (uvIndexValue < 11))
+                    currUvIndexEl.css("background-color", "red");
+                else if (uvIndexValue >= 11)
+                    currUvIndexEl.css("background-color", "violet");
             });
 
             //set the current date
@@ -196,7 +282,8 @@ $(document).ready(function () {
             // render city names
             renderCityNames();
 
-            getAndDisplayFiveDayForecast(cityWeather.name);
+            //getAndDisplayFiveDayForecast(cityWeather.name);
+            getAndDisplayFiveDayForecastOneCallApi(lat, lon);
 
             // display the weather display div
             weatherDisplayDiv.show();
@@ -209,14 +296,12 @@ $(document).ready(function () {
     function onDocumentLoad() {
 
         var searchHistory = JSON.parse(localStorage.getItem("citySearchHistory"));
-        if(searchHistory !== null)
-        {
+        if (searchHistory !== null) {
             citySearchedArray = searchHistory;
         }
-        if(citySearchedArray.length > 0 )
-        {
+        if (citySearchedArray.length > 0) {
             renderCityNames();
-        }        
+        }
 
     }
 
